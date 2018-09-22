@@ -1,33 +1,38 @@
-const fs = require('fs');
-const async = require('async');
-const api = require('./board-game-geek-api');
+const fs = require('fs').promises;
 
-function processUrl(url, cb) {
-  const gameId = api.getGameId(url);
+const api = require('./src/board-game-geek-api');
+const cache = require('./src/cache');
+const parser = require('./src/response-parser');
 
-  if (gameId == null) {
-    console.log(url);
-    return cb();
+(async () => {
+  try {
+    const inputFilePath = './input.txt';
+    const inputFileContent = await fs.readFile(inputFilePath, 'utf8');
+
+    for (const gameUrl of inputFileContent.split('\n')) {
+      const gameId = api.getGameId(gameUrl);
+
+      if (gameId == null) {
+        console.log(gameUrl);
+        continue;
+      }
+
+      var gameData = await cache.get(gameId);
+      if(!gameData) {
+        gameData = await api.getGameData(gameId);
+        cache.put(gameId, gameData);
+      }
+
+      const game = await parser.parse(gameData);
+      const domains = game.domains.join(', ');
+      const categories = game.categories.join(', ');
+      const mechanics = game.mechanics.join(', ');
+      const baseGames = game.baseGames.join(', ');
+
+      console.log(`${game.name}\t${baseGames}\t${game.year}\t${game.age}\t${game.minPlayers}\t${game.maxPlayers}\t${game.minTime}\t${game.maxTime}\t${game.rank}\t${game.rating}\t${game.ratingCount}\t${domains}\t${categories}\t${mechanics}\t${gameUrl}`);
+    }
+  } catch (e) {
+    console.error(e.stack);
+    process.exitCode = 1;
   }
-
-  api.getGameData(gameId, (err, d) => {
-    if (err) return cb(err);
-
-    const domains = d.domains.join(', ');
-    const categories = d.categories.join(', ');
-    const mechanics = d.mechanics.join(', ');
-
-    console.log(`${d.name}\t${d.year}\t${d.age}\t${d.minPlayers}\t${d.maxPlayers}\t${d.minTime}\t${d.maxTime}\t${d.rank}\t${d.rating}\t${d.ratingCount}\t${domains}\t${categories}\t${mechanics}`);
-    return cb();
-  });
-}
-
-// const url = 'https://boardgamegeek.com/boardgame/6249/alhambra';
-// processUrl(url, (e) => { if (e) console.error(e); });
-
-fs.readFile('./data/input.txt', 'utf8', (err, data) => {
-  if (err) return console.log(err);
-
-  const urls = data.split('\n');
-  return async.eachSeries(urls, processUrl, (e) => { if (e) console.error(e); });
-});
+})();

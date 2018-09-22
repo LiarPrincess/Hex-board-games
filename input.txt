@@ -165,7 +165,7 @@ https://boardgamegeek.com/boardgame/14996/ticket-ride-europe
 https://boardgamegeek.com/boardgame/14996/ticket-ride-europe
 https://boardgamegeek.com/boardgame/2651/power-grid
 https://boardgamegeek.com/boardgame/231315/wanted-rich-or-dead
-https://boardgamegeek.com/boardgame/176494/isle-skye-chieftain-king
+
 https://boardgamegeek.com/boardgame/224031/cartagena
 https://boardgamegeek.com/boardgame/29294/world-warcraft-adventure-game
 https://boardgamegeek.com/boardgame/189294/yeti
@@ -440,3 +440,7 @@ https://boardgamegeek.com/boardgame/15512/diamant
 https://boardgamegeek.com/boardgame/148949/istanbul
 https://boardgamegeek.com/boardgame/195856/bloodborne-card-game
 https://boardgamegeek.com/boardgame/200147/kanagawa
+https://boardgamegeek.com/boardgame/230802/azul
+https://boardgamegeek.com/boardgame/204574/flow-history
+
+https://boardgamegeek.com/boardgame/151247/greed
