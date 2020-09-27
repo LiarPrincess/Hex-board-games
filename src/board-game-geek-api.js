@@ -5,17 +5,17 @@ const expansionIdPattern = /https:\/\/boardgamegeek\.com\/boardgameexpansion\/(\
 
 function getGameId(url) {
   const gameMatches = url.match(gameIdPattern);
-  if(gameMatches !== null)
-    return gameMatches[1];;
+  if (gameMatches !== null)
+    return gameMatches[1];
 
   const expansionMatches = url.match(expansionIdPattern);
-  if(expansionMatches !== null)
+  if (expansionMatches !== null)
     return expansionMatches[1];
 
   return null;
 }
 
-async function getGameData(gameId, cb) {
+async function getGameData(gameId) {
   const url = `https://www.boardgamegeek.com/xmlapi/boardgame/${gameId}?stats=1`;
 
   return new Promise((resolve, reject) => {

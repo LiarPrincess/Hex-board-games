@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 
-const api = require('./src/board-game-geek-api');
-const cache = require('./src/cache');
-const parser = require('./src/response-parser');
+const api = require('./board-game-geek-api');
+const cache = require('./cache');
+const parser = require('./response-parser');
 
 (async () => {
   try {
@@ -17,8 +17,8 @@ const parser = require('./src/response-parser');
         continue;
       }
 
-      var gameData = await cache.get(gameId);
-      if(!gameData) {
+      let gameData = await cache.get(gameId);
+      if (!gameData) {
         gameData = await api.getGameData(gameId);
         cache.put(gameId, gameData);
       }
